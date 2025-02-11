@@ -1,10 +1,12 @@
 # ML-Hub
 ## Scope
 ### Overview
+---
 * __Project name:__ ML Hub
 * __Objective:__ The platform will enable data scientists and machine learning practitioners to store and process datasets. as well as train, and evaluate machine learning models all in one place.
 * __Target Audience:__ Data scientists, machine learning engineers, researchers, and developers.
 ### Core Features and Functionalities
+---
 1. user authentication & Profiles
     * Login/Signup
       * Users can create an account using email and password, or third-party authentication (OAuth via Google, GitHub, etc.).
@@ -41,6 +43,7 @@
       * Allow users to work together on datasets or models by adding collaborators with different permission levels (e.g., read-only, edit, manage).
 
 ### Technical Requirements
+---
 #### Front End (React)
 1. Dashboard
     * Display datasets, models, experiment logs, and performance statistics in an organized way.
@@ -67,6 +70,7 @@
     * Can be used for storing unstructured data like model weights, hyperparameters, or data logs.
 
 ### Non-Functional Features
+---
 * Performance
   * Ensure that datasets can be processed efficiently, and model training doesn’t cause long delays. Implement caching or parallel processing where possible.
 * Security:
