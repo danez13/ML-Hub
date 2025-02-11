@@ -79,3 +79,81 @@
   * The platform should scale efficiently to handle large datasets and high computational loads, especially when model training is involved.
 
 
+## Road map 
+Phase 1: Setup & Architecture Planning 🏗️
+🔹 Define project structure, select tools, and set up repositories.
+🔹 Tasks:
+✅ Set up GitHub/GitLab repository.
+✅ Define backend architecture (FastAPI + Spring Boot).
+✅ Define database schema (PostgreSQL, MinIO for storage).
+✅ Set up Docker for local development.
+
+💡 Why?
+Getting a structured foundation prevents rework later.
+
+2️⃣ Phase 2: Backend Development (Spring Boot & FastAPI) ⚙️
+🔹 Start with Spring Boot as the API gateway & user management system.
+🔹 Develop FastAPI for dataset processing and ML workflows.
+
+Tasks:
+✅ Spring Boot (Java) Development
+
+Implement JWT-based authentication (/auth/register, /auth/login).
+Develop user management APIs (/users/profile).
+Create dataset metadata storage APIs (/datasets/upload, /datasets/list).
+Implement task orchestration for training jobs (/tasks/start-training).
+✅ FastAPI (Python) Development
+
+Set up ML pipeline (dataset preprocessing, training, evaluation).
+Implement model training APIs (/ml/train, /ml/evaluate).
+Integrate MinIO/AWS S3 storage for dataset handling.
+💡 Why?
+The backend is the foundation; the frontend will consume its APIs.
+
+3️⃣ Phase 3: Database & Storage Setup 🗄️
+🔹 Implement the PostgreSQL database schema & configure MinIO for object storage.
+
+Tasks:
+✅ Write SQL migration scripts (using Liquibase/Flyway for Spring Boot).
+✅ Implement database models for Users, Datasets, Models, Experiments.
+✅ Connect MinIO/AWS S3 for dataset & model storage.
+
+💡 Why?
+You need structured data storage before building frontend interactions.
+
+4️⃣ Phase 4: Frontend Development (React + API Integration) 🎨
+🔹 Build the React UI, integrating backend APIs for user authentication, dataset uploads, and ML model training.
+
+Tasks:
+✅ Set up a React project (Next.js or Vite for faster performance).
+✅ Implement user authentication (JWT-based login/register UI).
+✅ Develop dataset management UI (upload, view, delete datasets).
+✅ Implement ML model training UI (select dataset, configure model, track progress).
+✅ Show real-time training updates using WebSockets or polling.
+
+💡 Why?
+A working frontend allows users to interact with the system!
+
+5️⃣ Phase 5: Deployment & Scaling 🌍
+🔹 Deploy backend services on AWS/GCP/Azure, containerized with Docker & Kubernetes.
+
+Tasks:
+✅ Deploy Spring Boot & FastAPI backend to a cloud service.
+✅ Set up PostgreSQL & MinIO in the cloud.
+✅ Deploy the React frontend to Vercel/Netlify.
+✅ Implement CI/CD pipelines for automated testing & deployment.
+
+💡 Why?
+Deployment ensures your app is live and accessible to users.
+
+6️⃣ Phase 6: Testing & Optimization 🛠️
+🔹 Ensure the system runs smoothly, is scalable, and performs well.
+
+Tasks:
+✅ Implement unit & integration tests for APIs.
+✅ Optimize database queries for performance.
+✅ Implement API rate limiting & security best practices.
+✅ Set up monitoring (Grafana, Prometheus, ELK Stack).
+
+💡 Why?
+Testing ensures reliability, security, and scalability.
