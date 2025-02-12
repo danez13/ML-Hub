@@ -5,7 +5,7 @@
 __Tasks:__
 ~~* Set up GitHub/GitLab repository.~~
 ~~* Define backend architecture _(FastAPI + Spring Boot)_.~~
-* Define database schema _(PostgreSQL, MinIO for storage)_.
+~~* Define database schema _(PostgreSQL, MinIO for storage)_.~~
 
 * Set up Docker for local development.
 
