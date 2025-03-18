@@ -7,13 +7,16 @@ class data_handler():
     def __init__(self,file=None):
         if file is not None:
             self.load(file)
-        self._data = None
+        else:
+            self._data = None
+            self._preview = None
     def load(self,file):
         if file is None:
             return False
         
         self._data = pd.read_csv(file)
-        
+        self._preview = self._data
+
         return not self.isempty()
 
     def isempty(self):
@@ -22,8 +25,15 @@ class data_handler():
                 return False
         return True
     
-    def get_data(self):
+    def apply_preview(self):
+        self._data = self._preview
+        return True
+    
+    def get_current_data(self):
         return self._data
+    
+    def get_preview_data(self):
+        return self._preview
     
     def get_columns(self):
         return self._data.columns
