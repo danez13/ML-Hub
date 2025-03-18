@@ -29,10 +29,11 @@ class data_handler():
         return self._data.columns
 
 class model_handler():
-    def __init__(self,task=None, features=[], target=None):
+    def __init__(self,task=None, features=[], target=None, model=None):
         self._task = task
         self._features = features
         self._target = target
+        self._model = model
 
     def set_config(self,task, features, target):
         self._task = task

@@ -10,7 +10,7 @@ if __name__ == "__main__":
     uploaded_file = st.file_uploader("Upload a file", type=["csv"])
 
     if uploaded_file is None:
-        st.stop()
+        pass
     elif not backend.load_data(uploaded_file):
         if backend.data_isempty():
             st.error("you have uploaded an empty file, please upload again")
@@ -18,24 +18,31 @@ if __name__ == "__main__":
     else:
         st.success("file upload was successful")
     
-    dataset, model, train = st.tabs(["Dataset", "Model", "Train"])
-    with dataset:
-        st.write(backend.get_data())
+    dataset_tab, model_tab, train_tab = st.tabs(["Dataset", "Model", "Train"])
+    with dataset_tab:
+        st.subheader("Dataset processing")
+        with st.expander("dataset configuration"):
+            pass
+        dataset = backend.get_data()
+        st.write(dataset if dataset else '')
 
-    with model:
-        st.subheader("model configuration")
-        task = st.radio("select a task type", ["Classification", "Regression"],index=None)
-        features = st.multiselect("Select features", backend.get_columns())
-        target = st.selectbox("Select target", [x for x in backend.get_columns() if x not in features], index=None)
-        backend.set_user_config(task, features, target)
+    with model_tab:
+        st.subheader("Model configuration")
+        if uploaded_file is None:
+            pass
+        else:
+            task = st.radio("select a task type", ["Classification", "Regression"],index=None)
+            features = st.multiselect("Select features", backend.get_columns())
+            target = st.selectbox("Select target", [x for x in backend.get_columns() if x not in features], index=None)
+            backend.set_user_config(task, features, target)
 
-    with train:
-        st.subheader("model training")
+    with train_tab:
+        st.subheader("Model training")
         config = backend.get_user_config()
         st.write("Task:",config["task"]if config["task"] else '')
         st.write("Features:", ",".join(config["features"]))
         st.write("Target:", config["target"] if config["target"] else '')
-        st.write("model:", backend.get_model() if backend.get_model() else '')
+        st.write("Model:", backend.get_model() if backend.get_model() else '')
         if not config["task"] and not config["target"] and len(config["features"])==0:
             st.warning("please set model configuration")
         else:
