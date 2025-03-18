@@ -25,7 +25,7 @@ if __name__ == "__main__":
             st.stop()
 
         with st.expander("dataset configuration"):
-            pass
+            tab1, tab2, tab3 = st.columns(3)
         
         st.write(backend.get_data())
 
