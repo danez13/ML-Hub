@@ -17,6 +17,9 @@ class connection_handler():
     def load_model(self):
         return self._model_connection.load()
     
+    def data_apply_preview(self):
+        return self._data_connection.apply_preview()
+    
     def init_model_training(self):
         return self._model_connection.train_model(self._data_connection.get_data())
 
@@ -26,8 +29,11 @@ class connection_handler():
     def data_isempty(self):
         return self._data_connection.isempty()
 
-    def get_data(self):
-        return self._data_connection.get_data()
+    def get_current_data(self):
+        return self._data_connection.get_current_data()
+    
+    def get_preview_data(self):
+        return self._data_connection.get_preview_data()
     
     def get_columns(self):
         return self._data_connection.get_columns()

@@ -24,10 +24,20 @@ if __name__ == "__main__":
         if uploaded_file is None:
             st.stop()
 
-        with st.expander("dataset configuration"):
-            tab1, tab2, tab3 = st.columns(3)
-        
-        st.write(backend.get_data())
+        with st.expander("Dataset Configuration"):
+            tab1, tab2, transformation_preview_column = st.columns(3)
+
+            with transformation_preview_column:
+                st.write("###### Preview Management")
+                if st.button("apply changes"):
+                    backend.data_apply_preview()
+
+                
+        current_tab, preview_tab = st.tabs(["Current", "Preview"])
+        with current_tab:
+            st.write(backend.get_current_data())
+        with preview_tab:
+            st.write(backend.get_preview_data())
 
 
     with model_tab:
