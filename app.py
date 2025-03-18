@@ -18,29 +18,30 @@ if __name__ == "__main__":
     else:
         st.success("file upload was successful")
     
-    dataset, train = st.tabs(["Dataset", "Train"])
+    dataset, model, train = st.tabs(["Dataset", "Model", "Train"])
     with dataset:
         st.write(backend.get_data())
 
-    with train:
-        train, config = st.columns(2)
-        with config:
-            st.subheader("model configuration")
-            task = st.radio("select a task type", ["Classification", "Regression"],index=None)
-            features = st.multiselect("Select features", backend.get_columns())
-            target = st.selectbox("Select target", [x for x in backend.get_columns() if x not in features], index=None)
-            backend.set_user_config(task, features, target)
-        
-        with train:
-            st.subheader("model training")
-            config = backend.get_user_config()
-            st.write("Task:",config["task"]if config["task"] else '')
-            st.write("Features:", ",".join(config["features"]))
-            st.write("Target:", config["target"] if config["target"] else '')
-            st.write("model:", backend.get_model() if backend.get_model() else '')
+    with model:
+        st.subheader("model configuration")
+        task = st.radio("select a task type", ["Classification", "Regression"],index=None)
+        features = st.multiselect("Select features", backend.get_columns())
+        target = st.selectbox("Select target", [x for x in backend.get_columns() if x not in features], index=None)
+        backend.set_user_config(task, features, target)
 
+    with train:
+        st.subheader("model training")
+        config = backend.get_user_config()
+        st.write("Task:",config["task"]if config["task"] else '')
+        st.write("Features:", ",".join(config["features"]))
+        st.write("Target:", config["target"] if config["target"] else '')
+        st.write("model:", backend.get_model() if backend.get_model() else '')
+        if not config["task"] and not config["target"] and len(config["features"])==0:
+            st.warning("please set model configuration")
+        else:
             if st.button("Train model"):
                 st.divider()
                 if backend.init_model_training():
                     st.success("model training was a success")
-                    st.write(backend.get_model_score())
+                    st.write("Accuracy score:",backend.get_model_score())
+
