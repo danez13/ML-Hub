@@ -1,6 +1,4 @@
-import app
 import data
-import streamlit as st
 
 class connection_handler():
     def __init__(self):
