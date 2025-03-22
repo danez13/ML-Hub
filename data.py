@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LinearRegression
 
+import io
+
 class data_handler():
     def __init__(self,file=None):
         if file is not None:
@@ -37,6 +39,44 @@ class data_handler():
     
     def get_columns(self):
         return self._data.columns
+    
+    def get_num_rows(self):
+        return len(self._data)
+    
+    def get_total_missing(self):
+        return self._data.isna().sum().sum()
+    
+    def get_total_memory(self):
+        return self._data.memory_usage().sum() * 0.000001
+    
+    def get_column_meta(self):
+        dtypes = self._data.dtypes.values
+        columns = self._data.dtypes.index
+        missing_count = self._data.isna().sum()
+        non_missing_count = self._data.count(0)
+        mem_usage = self._data.memory_usage(index=False)
+        # return mem_usage
+        return pd.DataFrame({
+            "Columns": columns,
+            "Data Types": dtypes,
+            "Missing Value Count": missing_count,
+            "Non-empty Value Count": non_missing_count,
+            "Memory Usage": mem_usage * 0.000001
+        })
+    
+    def get_dtype_meta(self):
+        unique_dtypes = self._data.dtypes.unique()
+        unique_dtype_counts = self._data.dtypes.value_counts()
+        return pd.DataFrame({
+            "Data Types": unique_dtypes,
+            "Counts": unique_dtype_counts
+        },index=unique_dtypes)
+    
+    def get_info(self):
+        buffer = io.StringIO()
+        self._data.info(buf=buffer)
+        info = buffer.getvalue()
+        return info
 
 class model_handler():
     def __init__(self,task=None, features=[], target=None, model=None):

@@ -23,26 +23,44 @@ class connection_handler():
     def init_model_training(self):
         return self._model_connection.train_model(self._data_connection.get_data())
 
-    def get_model_score(self):
+    def model_get_score(self):
         return self._model_connection.eval_model(self._data_connection.get_data())
 
     def data_isempty(self):
         return self._data_connection.isempty()
 
-    def get_current_data(self):
+    def data_get_current(self):
         return self._data_connection.get_current_data()
     
-    def get_preview_data(self):
+    def data_get_preview(self):
         return self._data_connection.get_preview_data()
     
-    def get_columns(self):
+    def data_get_columns(self):
         return self._data_connection.get_columns()
 
-    def get_model(self):
+    def model_get_model(self):
         return self._model_connection.get_model()
 
     def get_user_config(self):
         return self._model_connection.get_config()
+    
+    def data_get_info(self):
+        return self._data_connection.get_info()
+    
+    def data_get_num_rows(self):
+        return self._data_connection.get_num_rows()
+    
+    def data_get_column_meta(self):
+        return self._data_connection.get_column_meta()
+    
+    def data_get_dtype_meta(self):
+        return self._data_connection.get_dtype_meta()
+    
+    def data_get_total_missing(self):
+        return self._data_connection.get_total_missing()
+    
+    def data_get_total_memory(self):
+        return self._data_connection.get_total_memory()
     
     def set_user_config(self,task,features,target):
         return self._model_connection.set_config(task,features,target)
