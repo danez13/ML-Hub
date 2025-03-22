@@ -8,40 +8,73 @@ if __name__ == "__main__":
     st.title("ML HUB")
 
     uploaded_file = st.file_uploader("Upload a file", type=["csv"])
-
-    if uploaded_file is None:
-        st.stop()
+    if not uploaded_file:
+        st.warning("please upload a dataset file to access more features")
     elif not backend.load_data(uploaded_file):
         if backend.data_isempty():
             st.error("you have uploaded an empty file, please upload again")
         st.stop()
     else:
-        st.success("file upload was successful")
+        file_upload_success = st.success("file upload was successful")
     
-    dataset, model, train = st.tabs(["Dataset", "Model", "Train"])
-    with dataset:
-        st.write(backend.get_data())
+    dataset_tab, model_tab, train_tab = st.tabs(["Dataset", "Model", "Train"])
+    with dataset_tab:
+        st.subheader("Dataset processing")
 
-    with model:
-        st.subheader("model configuration")
-        task = st.radio("select a task type", ["Classification", "Regression"],index=None)
-        features = st.multiselect("Select features", backend.get_columns())
-        target = st.selectbox("Select target", [x for x in backend.get_columns() if x not in features], index=None)
-        backend.set_user_config(task, features, target)
+        if uploaded_file is None:
+            st.stop()
 
-    with train:
-        st.subheader("model training")
+        with st.expander("Dataset Configuration"):
+            tab1, tab2, transformation_preview_column = st.columns(3)
+
+            with transformation_preview_column:
+                st.write("###### Preview Management")
+                if st.button("apply changes"):
+                    backend.data_apply_preview()
+
+                
+        details_tab, current_tab, preview_tab = st.tabs(["Details","Current View", "Preview"])
+        with details_tab:
+            st.write("Number of rows:",backend.data_get_num_rows())
+            st.write("Number of columns:",len(backend.data_get_columns()))
+            st.write("Total missing values:", backend.data_get_total_missing())
+            st.write("Total memory (MB):",backend.data_get_total_memory())
+            st.divider()
+            st.dataframe(backend.data_get_column_meta(),hide_index=False)
+            st.dataframe(backend.data_get_dtype_meta(),hide_index=True)
+        with current_tab:
+            st.write(backend.data_get_current())
+        with preview_tab:
+            st.write(backend.data_get_preview())
+        
+
+
+    with model_tab:
+        st.subheader("Model configuration")
+        if uploaded_file is None:
+            pass
+        else:
+            task = st.radio("select a task type", ["Classification", "Regression"],index=None)
+            features = st.multiselect("Select features", backend.data_get_columns())
+            target = st.selectbox("Select target", [x for x in backend.data_get_columns() if x not in features], index=None)
+            backend.set_user_config(task, features, target)
+
+    with train_tab:
+        st.subheader("Model training")
+        
         config = backend.get_user_config()
         st.write("Task:",config["task"]if config["task"] else '')
         st.write("Features:", ",".join(config["features"]))
         st.write("Target:", config["target"] if config["target"] else '')
-        st.write("model:", backend.get_model() if backend.get_model() else '')
+        st.write("Model:", backend.model_get_model() if backend.model_get_model() else '')
+        
         if not config["task"] and not config["target"] and len(config["features"])==0:
             st.warning("please set model configuration")
-        else:
-            if st.button("Train model"):
-                st.divider()
-                if backend.init_model_training():
-                    st.success("model training was a success")
-                    st.write("Accuracy score:",backend.get_model_score())
+            st.stop()
+        
+        if st.button("Train model"):
+            st.divider()
+            if backend.init_model_training():
+                st.success("model training was a success")
+                st.write("Accuracy score:",backend.model_get_score())
 
